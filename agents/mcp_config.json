@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "project": {
+    "name": "audiolab-university",
+    "description": "MCP Agent configuration for AudioLab University documentation repository",
+    "repository": "https://github.com/audiolab-university/audiolab-university",
+    "documentation": "https://audiolab-university.github.io/audiolab-university"
+  },
+  "agents": {
+    "doc_writer": {
+      "enabled": true,
+      "prompt_file": "agents/prompts/doc_writer.md",
+      "schema": "agents/schemas/chapter.schema.json",
+      "output_directory": "docs/01_programa",
+      "templates": [
+        "templates/template_capitulo.md"
+      ],
+      "policies": [
+        "agents/guards/policy.md"
+      ],
+      "triggers": [
+        "create_chapter",
+        "edit_chapter"
+      ],
+      "permissions": {
+        "create_files": true,
+        "edit_files": true,
+        "create_branches": true,
+        "create_prs": true
+      }
+    },
+    "reviewer": {
+      "enabled": true,
+      "prompt_file": "agents/prompts/reviewer.md",
+      "policies": [
+        "agents/guards/policy.md"
+      ],
+      "triggers": [
+        "pr_created",
+        "pr_updated"
+      ],
+      "auto_approve": false,
+      "permissions": {
+        "read_files": true,
+        "comment_on_prs": true,
+        "request_changes": true,
+        "approve_prs": false
+      },
+      "validation": {
+        "run_mkdocs_build": true,
+        "check_math_delimiters": true,
+        "validate_front_matter": true,
+        "check_headings": true,
+        "check_links": true,
+        "check_code_blocks": true
+      }
+    },
+    "curator": {
+      "enabled": true,
+      "prompt_file": "agents/prompts/curator.md",
+      "config_file": "mkdocs.yml",
+      "triggers": [
+        "file_added",
+        "file_moved",
+        "file_deleted"
+      ],
+      "permissions": {
+        "read_files": true,
+        "edit_mkdocs_yml": true,
+        "create_commits": true
+      },
+      "options": {
+        "auto_add_to_nav": true,
+        "orphan_detection": true,
+        "suggest_reorganization": true
+      }
+    }
+  },
+  "workflows": {
+    "new_chapter": {
+      "description": "Complete workflow for creating a new chapter",
+      "steps": [
+        {
+          "agent": "doc_writer",
+          "action": "create_chapter",
+          "params": {
+            "template": "templates/template_capitulo.md"
+          }
+        },
+        {
+          "agent": "doc_writer",
+          "action": "create_branch",
+          "params": {
+            "branch_prefix": "ai/chapter-"
+          }
+        },
+        {
+          "agent": "curator",
+          "action": "add_to_navigation",
+          "params": {
+            "auto_commit": true
+          }
+        },
+        {
+          "agent": "doc_writer",
+          "action": "create_pr",
+          "params": {
+            "title_format": "feat(chapter): {title}",
+            "labels": ["documentation", "review-needed"]
+          }
+        },
+        {
+          "agent": "reviewer",
+          "action": "review_pr",
+          "params": {
+            "auto_trigger": true
+          }
+        }
+      ]
+    },
+    "new_practice": {
+      "description": "Workflow for creating a new practice guide",
+      "steps": [
+        {
+          "agent": "doc_writer",
+          "action": "create_practice",
+          "params": {
+            "template": "templates/template_practica.md",
+            "schema": "agents/schemas/practice.schema.json"
+          }
+        },
+        {
+          "agent": "curator",
+          "action": "add_to_navigation"
+        },
+        {
+          "agent": "doc_writer",
+          "action": "create_pr",
+          "params": {
+            "title_format": "feat(practice): {title}"
+          }
+        }
+      ]
+    },
+    "review_pr": {
+      "description": "Automated PR review workflow",
+      "steps": [
+        {
+          "agent": "reviewer",
+          "action": "validate_build"
+        },
+        {
+          "agent": "reviewer",
+          "action": "check_policies"
+        },
+        {
+          "agent": "reviewer",
+          "action": "validate_schemas"
+        },
+        {
+          "agent": "reviewer",
+          "action": "review_content"
+        },
+        {
+          "agent": "reviewer",
+          "action": "post_review"
+        }
+      ]
+    }
+  },
+  "github": {
+    "api_version": "2022-11-28",
+    "base_url": "https://api.github.com",
+    "token": "${GITHUB_TOKEN}",
+    "branch_defaults": {
+      "base": "main",
+      "prefix": "ai/"
+    },
+    "pr_defaults": {
+      "assignees": [],
+      "reviewers": [],
+      "labels": ["documentation", "agent-generated"],
+      "draft": false
+    }
+  },
+  "mkdocs": {
+    "config_file": "mkdocs.yml",
+    "strict_mode": true,
+    "validation": {
+      "check_links": true,
+      "check_nav": true,
+      "fail_on_warning": true
+    }
+  },
+  "schemas": {
+    "chapter": "agents/schemas/chapter.schema.json",
+    "practice": "agents/schemas/practice.schema.json"
+  },
+  "templates": {
+    "chapter": "templates/template_capitulo.md",
+    "practice": "templates/template_practica.md"
+  },
+  "policies": {
+    "main": "agents/guards/policy.md",
+    "math_delimiters": ["$", "$$"],
+    "max_heading_depth": 4,
+    "required_front_matter": ["title", "status", "slug"],
+    "allowed_statuses": ["draft", "review", "published"]
+  },
+  "notifications": {
+    "pr_created": {
+      "enabled": false,
+      "webhook_url": "${WEBHOOK_URL}",
+      "message_template": "New PR created by agent: {pr_url}"
+    },
+    "review_completed": {
+      "enabled": false,
+      "webhook_url": "${WEBHOOK_URL}",
+      "message_template": "Review completed: {review_status}"
+    }
+  },
+  "environment": {
+    "python_version": "3.10+",
+    "mkdocs_version": "1.6.1",
+    "required_packages": [
+      "mkdocs-material==9.5.27",
+      "mkdocs-mermaid2-plugin==1.1.1",
+      "mkdocs-jupyter==0.24.8",
+      "pymdown-extensions==10.11.2"
+    ]
+  },
+  "notes": [
+    "IMPORTANT: Never commit tokens or secrets to this file",
+    "Use environment variables for sensitive data (${VAR_NAME})",
+    "Configure GITHUB_TOKEN in your CI/CD environment or local .env file",
+    "Agents require appropriate GitHub permissions (repo, pull_request, contents)",
+    "Review agent outputs before merging to main",
+    "Human approval required for all PRs to main branch"
+  ]
+}

@@ -1,0 +1,146 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+      - '.github/workflows/**'
+
+jobs:
+  validate-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build MkDocs (strict mode)
+        id: build
+        run: |
+          echo "🔨 Building site in strict mode..."
+          mkdocs build --strict --verbose
+          echo "✅ Build completed successfully"
+
+      - name: Check for broken links
+        run: |
+          echo "🔗 Checking for broken internal links..."
+          # Simple check for common broken link patterns
+          find docs -name "*.md" -exec grep -l 'github.io/audiolab-university' {} \; | while read file; do
+            echo "⚠️ Warning: Absolute internal link found in $file"
+          done || true
+
+      - name: Validate math delimiters
+        run: |
+          echo "🧮 Validating LaTeX math delimiters..."
+          if find docs -name "*.md" -exec grep -l '\\(' {} \; | grep .; then
+            echo "❌ ERROR: Found incorrect LaTeX delimiter \\("
+            echo "Use $ for inline math instead"
+            exit 1
+          fi
+          if find docs -name "*.md" -exec grep -l '\\[' {} \; | grep .; then
+            echo "❌ ERROR: Found incorrect LaTeX delimiter \\["
+            echo "Use $$ for display math instead"
+            exit 1
+          fi
+          echo "✅ Math delimiters are correct"
+
+      - name: Check trailing whitespace
+        run: |
+          echo "🧹 Checking for trailing whitespace..."
+          if git diff --check HEAD~1; then
+            echo "✅ No trailing whitespace found"
+          else
+            echo "⚠️ Warning: Trailing whitespace detected"
+            # Don't fail, just warn
+          fi
+
+      - name: Validate front matter (if schema validation tool available)
+        run: |
+          echo "📋 Front matter validation..."
+          echo "ℹ️ Manual validation required - check agents/schemas/"
+          # Future: integrate JSON schema validation tool
+
+      - name: Generate validation report
+        if: always()
+        run: |
+          echo "## 📊 Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build status**: ${{ steps.build.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Python version**: $(python --version)" >> $GITHUB_STEP_SUMMARY
+          echo "- **MkDocs version**: $(mkdocs --version)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ All checks passed! PR is ready for human review." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Some checks failed. Please review errors above." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload build artifacts (on failure for debugging)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-build-logs
+          path: |
+            site/
+            *.log
+          retention-days: 3
+
+      - name: Comment on PR (optional)
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const outcome = '${{ steps.build.outcome }}';
+            const emoji = outcome === 'success' ? '✅' : '❌';
+            const status = outcome === 'success' ? 'passed' : 'failed';
+
+            const body = `${emoji} **MkDocs build ${status}**\n\n` +
+                         `Build completed with status: \`${outcome}\`\n\n` +
+                         `See [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId}) for details.`;
+
+            // Uncomment to enable PR comments
+            // github.rest.issues.createComment({
+            //   issue_number: context.issue.number,
+            //   owner: context.repo.owner,
+            //   repo: context.repo.repo,
+            //   body: body
+            // });
+
+  lint-markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v14
+        with:
+          globs: 'docs/**/*.md'
+          config: '.markdownlint.json'
+        continue-on-error: true
+
+      - name: Report linting results
+        if: always()
+        run: |
+          echo "ℹ️ Markdown linting completed (non-blocking)"
+          echo "See workflow logs for any style suggestions"

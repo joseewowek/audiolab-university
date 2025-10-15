@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://audiolab-university.github.io/schemas/chapter.schema.json",
+  "title": "Chapter Metadata",
+  "description": "JSON Schema for chapter front matter in AudioLab University documentation",
+  "type": "object",
+  "required": ["title", "status", "slug"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Full title of the chapter",
+      "minLength": 5,
+      "maxLength": 100,
+      "examples": ["Capítulo 1: Vectores en Procesamiento de Audio"]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization and search",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "examples": [["algebra", "vectores", "dsp", "fundamentos"]]
+    },
+    "status": {
+      "type": "string",
+      "description": "Publication status of the chapter",
+      "enum": ["draft", "review", "published"],
+      "default": "draft"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 50,
+      "examples": ["cap01-vectores", "cap02-matrices"]
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or team name",
+      "default": "AudioLab Team",
+      "examples": ["AudioLab Team", "John Doe"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Creation or last update date (ISO 8601)",
+      "format": "date",
+      "examples": ["2025-10-15"]
+    },
+    "module": {
+      "type": "string",
+      "description": "Parent module identifier",
+      "examples": ["AL1-04_algebra_calculo", "AL5-08_fourier"]
+    },
+    "chapter_number": {
+      "type": "integer",
+      "description": "Sequential chapter number within module",
+      "minimum": 1,
+      "examples": [1, 2, 3]
+    },
+    "estimated_time": {
+      "type": "string",
+      "description": "Estimated time to complete (in hours)",
+      "pattern": "^\\d+(-\\d+)?h$",
+      "examples": ["2h", "3-4h", "6h"]
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "List of prerequisite chapters or concepts",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Álgebra básica", "Trigonometría"]]
+    },
+    "learning_objectives": {
+      "type": "array",
+      "description": "Specific learning objectives for the chapter",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      },
+      "minItems": 3,
+      "maxItems": 10
+    },
+    "difficulty": {
+      "type": "string",
+      "description": "Difficulty level",
+      "enum": ["principiante", "intermedio", "avanzado"],
+      "examples": ["principiante"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "Bash(pip --version)",
+      "Bash(mkdocs:*)",
+      "Bash(if not exist \"tools\" mkdir tools)",
+      "Bash(pip install:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

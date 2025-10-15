@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://audiolab-university.github.io/schemas/practice.schema.json",
+  "title": "Practice Metadata",
+  "description": "JSON Schema for practice/lab front matter in AudioLab University documentation",
+  "type": "object",
+  "required": ["title", "status", "slug", "tool"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Full title of the practice (should start with 'Práctica:')",
+      "pattern": "^Práctica:",
+      "minLength": 10,
+      "maxLength": 100,
+      "examples": ["Práctica: SigLab CLI para Análisis de Audio"]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "examples": [["practica", "lab", "siglab", "analisis"]]
+    },
+    "status": {
+      "type": "string",
+      "description": "Publication status",
+      "enum": ["draft", "review", "published"],
+      "default": "draft"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier",
+      "pattern": "^practica-[a-z0-9]+(-[a-z0-9]+)*$",
+      "examples": ["practica-siglab-cli", "practica-fftview"]
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or team name",
+      "default": "AudioLab Team"
+    },
+    "date": {
+      "type": "string",
+      "description": "Creation or last update date (ISO 8601)",
+      "format": "date",
+      "examples": ["2025-10-15"]
+    },
+    "tool": {
+      "type": "string",
+      "description": "Primary tool/software used in practice",
+      "minLength": 2,
+      "examples": ["siglab-cli", "fftview", "python-numpy", "reaper"]
+    },
+    "difficulty": {
+      "type": "string",
+      "description": "Difficulty level",
+      "enum": ["principiante", "intermedio", "avanzado"],
+      "default": "principiante"
+    },
+    "estimated_time": {
+      "type": "string",
+      "description": "Estimated time to complete (in hours)",
+      "pattern": "^\\d+(-\\d+)?h$",
+      "examples": ["1h", "2-3h", "4h"]
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "Prerequisites (chapters, concepts, skills)",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Capítulo 1: Vectores", "Python básico"]]
+    },
+    "learning_objectives": {
+      "type": "array",
+      "description": "What students will be able to do after completing practice",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      },
+      "minItems": 2,
+      "maxItems": 8
+    },
+    "deliverables": {
+      "type": "array",
+      "description": "Expected deliverables from the practice",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Reporte PDF con análisis", "Script Python ejecutable", "Screenshots de resultados"]]
+    },
+    "software_requirements": {
+      "type": "array",
+      "description": "Software/tools required",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "examples": [[
+        {"name": "Python", "version": "3.10+"},
+        {"name": "SigLab CLI", "version": "1.2.0+", "url": "https://siglab-cli.readthedocs.io"}
+      ]]
+    },
+    "related_chapters": {
+      "type": "array",
+      "description": "Related theoretical chapters",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["01_programa/AL1-04_algebra_calculo/cap01_vectores.md"]]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,58 @@
+/* Custom styles for AudioLab University */
+
+:root {
+  --md-primary-fg-color: #3949ab;
+  --md-accent-fg-color: #00acc1;
+}
+
+/* Mejora legibilidad de ecuaciones */
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-display {
+  margin: 1.5em 0;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+}
+
+[data-md-color-scheme="slate"] .katex-display {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Admonitions personalizados */
+.admonition.lab {
+  border-left-color: #00acc1;
+}
+
+.admonition.lab > .admonition-title {
+  background-color: rgba(0, 172, 193, 0.1);
+}
+
+.admonition.lab > .admonition-title::before {
+  content: "🧪";
+  margin-right: 0.5em;
+}
+
+/* Tablas mejoradas */
+table {
+  width: 100%;
+  margin: 1em 0;
+}
+
+th {
+  background-color: var(--md-primary-fg-color);
+  color: white;
+  padding: 0.6em;
+}
+
+td {
+  padding: 0.6em;
+}
+
+/* Code blocks */
+.highlight pre {
+  padding: 1em;
+  border-radius: 4px;
+}

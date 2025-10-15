@@ -1,0 +1,102 @@
+site_name: AudioLab University
+site_description: Documentación técnica del programa AudioLab - Matemáticas y DSP para audio
+site_author: AudioLab Team
+site_url: https://audiolab-university.github.io/audiolab-university
+
+repo_name: audiolab-university
+repo_url: https://github.com/audiolab-university/audiolab-university
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - styles/extra.css
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js
+  - js/katex-init.js
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+plugins:
+  - search:
+      lang: es
+  - mermaid2
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+      ignore_h1_titles: true
+
+nav:
+  - Inicio: index.md
+  - Acerca de:
+      - Visión: 00_about/vision.md
+  - Programa:
+      - AL1-04 Álgebra y Cálculo:
+          - 01_programa/AL1-04_algebra_calculo/index.md
+          - Capítulo 1 - Vectores: 01_programa/AL1-04_algebra_calculo/cap01_vectores.md
+          - Capítulo 2 - Matrices: 01_programa/AL1-04_algebra_calculo/cap02_matrices.md
+  - Prácticas:
+      - SigLab CLI: 02_practicas/siglab_cli.md
+      - FFTView Tool: 02_practicas/fftview_tool.md
+  - Notebooks:
+      - FFT Basics: 03_notebooks/fft_basics.ipynb
+  - Recursos:
+      - Bibliografía: 04_recursos/bibliografia.md
+      - Glosario: 04_recursos/glosario.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/audiolab-university
