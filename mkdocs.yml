@@ -82,19 +82,85 @@ nav:
   - Inicio: index.md
   - Acerca de:
       - Visión: 00_about/vision.md
-  - Programa:
-      - AL1-04 Álgebra y Cálculo:
-          - 01_programa/AL1-04_algebra_calculo/index.md
-          - Capítulo 1 - Vectores: 01_programa/AL1-04_algebra_calculo/cap01_vectores.md
-          - Capítulo 2 - Matrices: 01_programa/AL1-04_algebra_calculo/cap02_matrices.md
-  - Prácticas:
-      - SigLab CLI: 02_practicas/siglab_cli.md
-      - FFTView Tool: 02_practicas/fftview_tool.md
-  - Notebooks:
-      - FFT Basics: 03_notebooks/fft_basics.ipynb
-  - Recursos:
-      - Bibliografía: 04_recursos/bibliografia.md
-      - Glosario: 04_recursos/glosario.md
+  - Asignaturas:
+      - Índice General: asignaturas/index.md
+      - Fundamentos de Programación:
+          - AL1-01 · Lógica y Estructuras I:
+              - asignaturas/AL1-01_logica_estructuras/index.md
+              - Introducción: asignaturas/AL1-01_logica_estructuras/introduccion.md
+          - AL1-02 · C++ Básico y STL I:
+              - asignaturas/AL1-02_cpp_stl/index.md
+              - Introducción: asignaturas/AL1-02_cpp_stl/introduccion.md
+          - AL1-03 · Python para Automatización I:
+              - asignaturas/AL1-03_python_automatizacion/index.md
+              - Introducción: asignaturas/AL1-03_python_automatizacion/introduccion.md
+      - Matemáticas:
+          - AL1-04 · Álgebra + Cálculo para DSP I:
+              - asignaturas/AL1-04_algebra_calculo/index.md
+              - Introducción: asignaturas/AL1-04_algebra_calculo/introduccion.md
+              - Programa:
+                  - Capítulo 1 - Vectores: asignaturas/AL1-04_algebra_calculo/programa/cap01_vectores.md
+                  - Capítulo 2 - Matrices: asignaturas/AL1-04_algebra_calculo/programa/cap02_matrices.md
+          - AL1-05 · Señales y Sistemas I:
+              - asignaturas/AL1-05_senales_sistemas/index.md
+              - Introducción: asignaturas/AL1-05_senales_sistemas/introduccion.md
+          - AL1-06 · Física del Sonido I:
+              - asignaturas/AL1-06_fisica_sonido/index.md
+              - Introducción: asignaturas/AL1-06_fisica_sonido/introduccion.md
+          - AL1-07 · Electrónica I:
+              - asignaturas/AL1-07_electronica/index.md
+              - Introducción: asignaturas/AL1-07_electronica/introduccion.md
+          - AL1-10 · Psicoacústica I:
+              - asignaturas/AL1-10_psicoacustica/index.md
+              - Introducción: asignaturas/AL1-10_psicoacustica/introduccion.md
+      - Herramientas:
+          - AL1-08 · Toolchain I:
+              - asignaturas/AL1-08_toolchain/index.md
+              - Introducción: asignaturas/AL1-08_toolchain/introduccion.md
+      - Arquitectura:
+          - AL1-09 · Núcleo CORE I:
+              - asignaturas/AL1-09_nucleo_core/index.md
+              - Introducción: asignaturas/AL1-09_nucleo_core/introduccion.md
+      - Interfaz y UX:
+          - AL1-11 · UI/UX I:
+              - asignaturas/AL1-11_dsp_audio_basico/index.md
+              - Introducción: asignaturas/AL1-11_dsp_audio_basico/introduccion.md
+      - Síntesis:
+          - AL1-12 · Synthesis I:
+              - asignaturas/AL1-12_sintesis_digital/index.md
+              - Introducción: asignaturas/AL1-12_sintesis_digital/introduccion.md
+      - Testing y QA:
+          - AL1-13 · Testing I:
+              - asignaturas/AL1-13_midi_osc/index.md
+              - Introducción: asignaturas/AL1-13_midi_osc/introduccion.md
+      - Seguridad y Deploy:
+          - AL1-14 · Seguridad/Deploy I:
+              - asignaturas/AL1-14_formatos_codecs/index.md
+              - Introducción: asignaturas/AL1-14_formatos_codecs/introduccion.md
+      - Telemetría:
+          - AL1-15 · Telemetría / Crashes I:
+              - asignaturas/AL1-15_metering_analisis/index.md
+              - Introducción: asignaturas/AL1-15_metering_analisis/introduccion.md
+      - Gestión:
+          - AL1-16 · Gestión y Flujo de Trabajo I:
+              - asignaturas/AL1-16_efectos_temporales/index.md
+              - Introducción: asignaturas/AL1-16_efectos_temporales/introduccion.md
+      - Comunidad OSS:
+          - AL1-17 · Comunidad / OSS I:
+              - asignaturas/AL1-17_dinamica/index.md
+              - Introducción: asignaturas/AL1-17_dinamica/introduccion.md
+      - Research:
+          - AL1-18 · Research Literacy I:
+              - asignaturas/AL1-18_espacializacion/index.md
+              - Introducción: asignaturas/AL1-18_espacializacion/introduccion.md
+      - Machine Learning:
+          - AL1-19 · _BRAIN I:
+              - asignaturas/AL1-19_plugins_vst/index.md
+              - Introducción: asignaturas/AL1-19_plugins_vst/introduccion.md
+      - Proyecto Integral:
+          - AL1-20 · Proyecto I:
+              - asignaturas/AL1-20_testing_qa/index.md
+              - Introducción: asignaturas/AL1-20_testing_qa/introduccion.md
 
 extra:
   social:
