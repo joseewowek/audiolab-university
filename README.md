@@ -1,6 +1,12 @@
 # AudioLab University
 
+[![Build Status](https://github.com/joseewowek/audiolab-university/actions/workflows/build-deploy.yml/badge.svg)](https://github.com/joseewowek/audiolab-university/actions/workflows/build-deploy.yml)
+[![Documentation](https://img.shields.io/badge/docs-live-brightgreen)](https://joseewowek.github.io/audiolab-university/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Repositorio de documentación técnica del programa **AudioLab** - Matemáticas y DSP para audio profesional.
+
+**🌐 Sitio web**: https://joseewowek.github.io/audiolab-university/
 
 ## Objetivo
 

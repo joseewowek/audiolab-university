@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://joseewowek.github.io/audiolab-university/sitemap.xml

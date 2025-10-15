@@ -1,10 +1,10 @@
 site_name: AudioLab University
 site_description: Documentación técnica del programa AudioLab - Matemáticas y DSP para audio
 site_author: AudioLab Team
-site_url: https://audiolab-university.github.io/audiolab-university
+site_url: https://joseewowek.github.io/audiolab-university/
 
-repo_name: audiolab-university
-repo_url: https://github.com/audiolab-university/audiolab-university
+repo_name: joseewowek/audiolab-university
+repo_url: https://github.com/joseewowek/audiolab-university
 edit_uri: edit/main/docs/
 
 theme:
@@ -99,4 +99,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/audiolab-university
+      link: https://github.com/joseewowek/audiolab-university
